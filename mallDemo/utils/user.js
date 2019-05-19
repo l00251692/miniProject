@@ -49,14 +49,17 @@ function loginByWeixin(userInfo) {
   return new Promise(function(resolve, reject) {
     return login().then((res) => {
       //登录远程服务器
+      
       util.request(api.AuthLoginByWeixin, {
-        code: res.code,
-        userInfo: userInfo
+        Authorization: 'Bearer cGFhc2Nsb3VkLWNsaWVudC11YWM6cGFhc2Nsb3VkQ2xpZW50U2VjcmV0',
+        username: 'admin'
       }, 'POST').then(res => {
-        if (res.errno === 0) {
+        console.log("weixin has login" + JSON.stringify(res))
+        if (res.errno == 0) {
+          console.log("weixin login ok" )
           //存储用户信息
-          wx.setStorageSync('userInfo', res.data.userInfo);
-          wx.setStorageSync('token', res.data.token);
+          wx.setStorageSync('userInfo', res.userInfo);
+          wx.setStorageSync('token', res.token);
 
           resolve(res);
         } else {

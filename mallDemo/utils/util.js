@@ -29,14 +29,15 @@ function request(url, data = {}, method = "GET") {
       data: data,
       method: method,
       header: {
-        'Content-Type': 'application/json',
-        'X-Litemall-Token': wx.getStorageSync('token')
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Litemall-Token': wx.getStorageSync('token'),
+        'appId': '12121212121212'
       },
       success: function(res) {
-
+        console.log("request return:" +JSON.stringify(res))
         if (res.statusCode == 200) {
 
-          if (res.data.errno == 501) {
+          if (res.data.code == 501) {
             // 清除登录相关内容
             try {
               wx.removeStorageSync('userInfo');
@@ -49,7 +50,7 @@ function request(url, data = {}, method = "GET") {
               url: '/pages/auth/login/login'
             });
           } else {
-            resolve(res.data);
+            resolve(res.data.result);
           }
         } else {
           reject(res.errMsg);
@@ -57,6 +58,7 @@ function request(url, data = {}, method = "GET") {
 
       },
       fail: function(err) {
+        console.log("request return:" + err)
         reject(err)
       }
     })
