@@ -1,10 +1,11 @@
 {
   "pages": [
+    "pages/start/start",
+    "pages/ucenter/index/index",
     "pages/index/index",
     "pages/catalog/catalog",
     "pages/newGoods/newGoods",
     "pages/hotGoods/hotGoods",
-    "pages/ucenter/index/index",
     "pages/ucenter/address/address",
     "pages/ucenter/addressAdd/addressAdd",
     "pages/ucenter/feedback/feedback",
@@ -39,7 +40,7 @@
     "pages/coupon/coupon"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarBackgroundColor": "#1e8cd4",
     "navigationBarTitleText": "mall小程序商城",
     "enablePullDownRefresh": true,
     "navigationBarTextStyle": "black",
@@ -49,9 +50,15 @@
   "tabBar": {
     "backgroundColor": "#fafafa",
     "borderStyle": "white",
-    "selectedColor": "#AB956D",
-    "color": "#666",
+    "selectedColor": "#1e8cd4",
+    "color": "#AB956D",
     "list": [
+      {
+        "pagePath": "pages/ucenter/index/index",
+        "iconPath": "static/images/my.png",
+        "selectedIconPath": "static/images/my@selected.png",
+        "text": "个人"
+      },
       {
         "pagePath": "pages/index/index",
         "iconPath": "static/images/home.png",
@@ -69,12 +76,6 @@
         "iconPath": "static/images/cart.png",
         "selectedIconPath": "static/images/cart@selected.png",
         "text": "购物车"
-      },
-      {
-        "pagePath": "pages/ucenter/index/index",
-        "iconPath": "static/images/my.png",
-        "selectedIconPath": "static/images/my@selected.png",
-        "text": "个人"
       }
     ]
   },
@@ -84,5 +85,6 @@
     "uploadFile": 10000,
     "downloadFile": 10000
   },
-  "debug": true
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
 }

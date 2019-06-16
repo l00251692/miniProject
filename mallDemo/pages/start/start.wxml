@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="background-layer"></div>    
+    <p class="welcome animated fadeInDown">每一天</p>
+    <p class="sub-text animated fadeInDown">都是新生活</p>
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="row footer" >
+        <button bindgetuserinfo="onLogin" open-type="getUserInfo" class="start">
+          开启小程序
+       </button>
+    </div>
+</div>

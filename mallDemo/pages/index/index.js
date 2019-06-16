@@ -21,36 +21,12 @@ Page({
   onShareAppMessage: function() {
     return {
       title: 'mall小程序商场',
-      desc: '开源微信小程序商城',
+      desc: '微信小程序商城',
       path: '/pages/index/index'
     }
   },
 
-  onPullDownRefresh() {
-    wx.showNavigationBarLoading() //在标题栏中显示加载
-    this.getIndexData();
-    wx.hideNavigationBarLoading() //完成停止加载
-    wx.stopPullDownRefresh() //停止下拉刷新
-  },
-
-  getIndexData: function() {
-    let that = this;
-    util.request(api.IndexUrl).then(function(res) {
-      if (res.errno === 0) {
-        that.setData({
-          newGoods: res.data.newGoodsList,
-          hotGoods: res.data.hotGoodsList,
-          topics: res.data.topicList,
-          brands: res.data.brandList,
-          floorGoods: res.data.floorGoodsList,
-          banner: res.data.banner,
-          groupons: res.data.grouponList,
-          channel: res.data.channel,
-          coupon: res.data.couponList
-        });
-      }
-    });
-  },
+  
   onLoad: function(options) {
 
     // 页面初始化 options为页面跳转所带来的参数
@@ -103,6 +79,7 @@ Page({
       });
     }
 
+    this.getBanner();
     this.getIndexData();
   },
   onReady: function() {
@@ -117,6 +94,45 @@ Page({
   onUnload: function() {
     // 页面关闭
   },
+
+  onPullDownRefresh() {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    this.getIndexData();
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
+  },
+
+  getIndexData: function () {
+    let that = this;
+    util.request(api.HomeIndex).then(function (res) {
+      if (res.status === 0) {
+        that.setData({
+          newGoods: res.data.newGoodsList,
+          hotGoods: res.data.hotGoodsList,
+          topics: res.data.topicList,
+          brands: res.data.brandList,
+          floorGoods: res.data.floorGoodsList,
+          groupons: res.data.grouponList,
+          channel: res.data.channel,
+          coupon: res.data.couponList
+        });
+      } else {
+        //
+      }
+    });
+  },
+
+  getBanner: function(e) {
+    var that = this;
+    util.request(api.HomeBanner).then(function(res) {
+      if (res.status === 0) {
+        that.setData({
+          banner: res.data.banner,
+        })
+      }
+    })
+  },
+
   getCoupon(e) {
     if (!app.globalData.hasLogin) {
       wx.navigateTo({
@@ -132,8 +148,7 @@ Page({
         wx.showToast({
           title: "领取成功"
         })
-      }
-      else{
+      } else {
         util.showErrorToast(res.errmsg);
       }
     })

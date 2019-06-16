@@ -22,47 +22,62 @@ function formatNumber(n) {
 /**
  * 封封微信的的request
  */
-function request(url, data = {}, method = "GET") {
+function request(url, data = {}, method = "POST") {
   return new Promise(function(resolve, reject) {
     wx.request({
       url: url,
       data: data,
       method: method,
       header: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-Litemall-Token': wx.getStorageSync('token'),
-        'appId': '12121212121212'
+        'content-type': 'application/x-www-form-urlencoded',
+        'deviceId' : api.AppId,
       },
       success: function(res) {
-        console.log("request return:" +JSON.stringify(res))
+        console.log("request return success:" +JSON.stringify(res))
         if (res.statusCode == 200) {
-
-          if (res.data.code == 501) {
-            // 清除登录相关内容
-            try {
-              wx.removeStorageSync('userInfo');
-              wx.removeStorageSync('token');
-            } catch (e) {
-              // Do something when catch error
-            }
-            // 切换到登录页面
-            wx.navigateTo({
-              url: '/pages/auth/login/login'
-            });
-          } else {
-            resolve(res.data.result);
-          }
+          resolve(res.data.result);
         } else {
+          console.log("request error:" + res.statusCode)
           reject(res.errMsg);
         }
 
       },
       fail: function(err) {
-        console.log("request return:" + err)
+        console.log("request return fail:" + JSON.stringify(err))
+        alert(err)
         reject(err)
       }
     })
   });
+}
+
+// 提示框
+export function alert(content, callback) {
+  wx.showModal({
+    title: '提示',
+    content: content,
+    showCancel: false,
+    success: callback
+  })
+}
+// 确认框
+export function confirm(options) {
+  var {
+    content, confirmText, cancelText,
+    ok,
+  } = options
+  confirmText = confirmText || '确定'
+  cancelText = cancelText || '关闭'
+  wx.showModal({
+    content,
+    confirmText,
+    cancelText,
+    success(res) {
+      if (res.confirm) {
+        ok && ok()
+      }
+    }
+  })
 }
 
 function redirect(url) {

@@ -5,10 +5,6 @@ var app = getApp();
 
 Page({
   data: {
-    userInfo: {
-      nickName: '点击登录',
-      avatarUrl: 'http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png'
-    },
     order: {
       unpaid: 0,
       unship: 0,
@@ -19,29 +15,31 @@ Page({
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
-  },
-  onReady: function() {
-
-  },
-  onShow: function() {
-
     //获取用户的登录信息
-    if (app.globalData.hasLogin) {
+    if (wx.getStorageSync('hasLogin')) {
+      console.log("wx has login")
       let userInfo = wx.getStorageSync('userInfo');
       this.setData({
         userInfo: userInfo,
         hasLogin: true
       });
 
+      app.globalData.hasLogin = true;
+
       let that = this;
-      util.request(api.UserIndex).then(function(res) {
-        if (res.errno === 0) {
-          that.setData({
-            order: res.data.order
-          });
-        }
-      });
+      //util.request(api.UserIndex).then(function (res) {
+      //  if (res.errno === 0) {
+      //    that.setData({
+      //      order: res.data.order
+      //    });
+      //  }
+      //});
     }
+  },
+  onReady: function() {
+
+  },
+  onShow: function() {
 
   },
   onHide: function() {
@@ -51,22 +49,36 @@ Page({
   onUnload: function() {
     // 页面关闭
   },
-  goLogin() {
-    if (!this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
+  onLogin(e) {
+    if (e.detail.errMsg == 'getUserInfo:ok') {
+      wx.setStorageSync('hasLogin', true)
+      wx.setStorageSync('userInfo', e.detail.userInfo)
+      app.globalData.hasLogin = true;
+
+      this.setData({
+        userInfo: e.detail.userInfo,
+        hasLogin: true
       });
+
+      setTimeout(() => {
+        wx.showModal({
+          title: '提示',
+          content: '登录超时，请稍候再试',
+        })
+      }, 1000);
     }
   },
+
   goOrder() {
     if (this.data.hasLogin) {
       wx.navigateTo({
         url: "/pages/ucenter/order/order"
       });
     } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
+      wx.showModal({
+        title: '提示',
+        content: '请登录后再查看',
+      })
     }
   },
   goOrderIndex(e) {
@@ -90,73 +102,9 @@ Page({
       });
     };
   },
-  goCoupon() {
-    if (this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/ucenter/couponList/couponList"
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
-  },
-  goGroupon() {
-    if (this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/groupon/myGroupon/myGroupon"
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
-  },
-  goCollect() {
-    if (this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/ucenter/collect/collect"
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
-  },
-  goFeedback(e) {
-    if (this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/ucenter/feedback/feedback"
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
-  },
-  goFootprint() {
-    if (this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/ucenter/footprint/footprint"
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
-  },
-  goAddress() {
-    if (this.data.hasLogin) {
-      wx.navigateTo({
-        url: "/pages/ucenter/address/address"
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
-  },
+
   bindPhoneNumber: function(e) {
+    console.log("bind phone" + e.detail.errMsg )
     if (e.detail.errMsg !== "getPhoneNumber:ok") {
       // 拒绝授权
       return;
@@ -184,18 +132,7 @@ Page({
       }
     });
   },
-  goAfterSale: function() {
-    wx.showToast({
-      title: '目前不支持',
-      icon: 'none',
-      duration: 2000
-    });
-  },
-  aboutUs: function() {
-    wx.navigateTo({
-      url: '/pages/about/about'
-    });
-  },
+  
   exitLogin: function() {
     wx.showModal({
       title: '',

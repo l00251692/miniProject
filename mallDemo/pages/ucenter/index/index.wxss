@@ -12,42 +12,39 @@ page {
 }
 
 .profile-info {
-  background-color: #ab956d;
+  background-color: #1e8cd4;
   color: #f4f4f4;
   display: flex;
   align-items: center;
   padding: 30rpx;
   font-size: 28rpx;
+  flex-direction: column;
 }
 
-.profile-info .avatar {
-  height: 148rpx;
-  width: 148rpx;
+.profile-info onlogin{
+  background-color: #1684fb;
+}
+
+.userbutton{
+  display: inline-block;
+  background-color: #1684fb;
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 50%;
+  padding-left:0;
+  padding-top:0;
 }
 
-.profile-info .info {
-  flex: 1;
-  height: 85rpx;
-  padding-left: 31.25rpx;
+.avatar {
+    display: inline-block;
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
 }
 
-.profile-info .name {
-  display: block;
-  height: 45rpx;
-  line-height: 45rpx;
-  color: #fff;
-  font-size: 37.5rpx;
-  margin-bottom: 10rpx;
-}
-
-.profile-info .level {
-  display: block;
-  height: 30rpx;
-  line-height: 30rpx;
-  margin-bottom: 10rpx;
-  color: #7f7f7f;
-  font-size: 30rpx;
+.name {
+  color:#fff;
+  font-size: 32rpx;
 }
 
 .user_area {
@@ -135,20 +132,28 @@ page {
   height: 6rpx;
 }
 
-.user_column_item_phone {
-  width: 30%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  float: left;
-  background: #fff;
-  border-bottom: 1px solid #fafafa;
+.btn-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 15rpx;
 }
 
-.user_column_item_phone::after {
+.contact {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  border: 0px;
+  padding-left:0;
+  text-align: left;
+  line-height: 100%;
+}
+
+.contact::after {
   border: none;
+}
+
+.weui-cell__bd {
+  line-height: 48rpx;
 }
 
 .logout {

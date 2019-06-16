@@ -2,6 +2,7 @@
 // 本机开发时使用
 //var WxApiRoot = 'https://www.zhang123.vip/wx/';
 var WxApiRoot = 'http://127.0.0.1/';
+
 // 局域网测试使用
 // var WxApiRoot = 'http://152.168.0.101:8080/wx/';
 // 云平台部署时使用
@@ -10,7 +11,9 @@ var WxApiRoot = 'http://127.0.0.1/';
 // var WxApiRoot = 'https://www.cctv.com.cn/wx/';
 
 module.exports = {
-  IndexUrl: WxApiRoot + 'home/index', //首页数据接口
+  AppId: 'example223344',
+  HomeBanner: WxApiRoot + 'app/home/banner', //首页Banner
+  HomeIndex: WxApiRoot + 'app/home/index', //首页Banner
   CatalogList: WxApiRoot + 'catalog/index', //分类目录全部分类数据接口
   CatalogCurrent: WxApiRoot + 'catalog/current', //分类目录当前分类数据接口
 

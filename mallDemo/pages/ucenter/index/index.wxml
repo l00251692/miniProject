@@ -1,8 +1,12 @@
 <view class="container">
   <view class="profile-info" bindtap="goLogin">
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-    <view class="info">
-      <text class="name">{{userInfo.nickName}}</text>
+    <view class="onlogin">
+      <button bindgetuserinfo="onLogin" open-type="getUserInfo" class="userbutton">
+        <image class="avatar" src="{{userInfo ? userInfo.avatarUrl: '/static/images/user/head.png'}}"></image>
+      </button>
+    </view>
+    <view class="name">
+      {{userInfo ? userInfo.nickName : '未登录'}}
     </view>
   </view>
 
@@ -40,60 +44,37 @@
 
   <view class='separate'></view>
 
-  <view class='user_row'>
-    <view class='user_row_left'>核心服务</view>
-  </view>
-  <view class='user_column'>
-
-    <view class='user_column_item' bindtap='goCoupon'>
-      <image class='user_column_item_image' src='/static/images/coupon.png'></image>
-      <view class='user_column_item_text'>优惠卷</view>
+  <view class="weui-cells">
+    <navigator url="/pages/ucenter/address/address" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <image class="btn-icon" src="/static/images/address.png"></image>
+      <view class="weui-cell__bd">地址管理</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='bindPhoneNumber'>
+      <image class="btn-icon" src="/static/images/mobile.png"></image>
+      <view class="weui-cell__bd">绑定手机</view>
     </view>
-    <view class='user_column_item' bindtap='goCollect'>
-      <image class='user_column_item_image' src='/static/images/icon_collect.png'></image>
-      <view class='user_column_item_text'>商品收藏</view>
+    <navigator url="/pages/ucenter/couponList/couponList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <image class="btn-icon" src="/static/images/coupon.png"></image>
+      <view class="weui-cell__bd">优惠券</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+    <navigator url="/pages/ucenter/feedback/feedback" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <image class="btn-icon" src="/static/images/feedback.png"></image>
+      <view class="weui-cell__bd">意见反馈</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <button class="contact" open-type="contact">
+        <image class="btn-icon" src="/static/images/customer.png"></image>
+        <view class="weui-cell__bd">联系客服</view>
+      </button> 
     </view>
-    <view class='user_column_item' bindtap='goFootprint'>
-      <image class='user_column_item_image' src='/static/images/footprint.png'></image>
-      <view class='user_column_item_text'>浏览足迹</view>
-    </view>
-    <view class='user_column_item' bindtap='goGroupon'>
-      <image class='user_column_item_image' src='/static/images/group.png'></image>
-      <view class='user_column_item_text'>我的拼团</view>
-    </view>
-    <view class='user_column_item' bindtap='goAfterSale'>
-      <image class='user_column_item_image' src='/static/images/aftersale.png'></image>
-      <view class='user_column_item_text'>售后</view>
-    </view>
-  </view>
-  <view class='separate'></view>
-
-  <view class='user_row'>
-    <view class='user_row_left'>必备工具</view>
-  </view>
-  <view class='user_column'>
-    <view class='user_column_item' bindtap='goAddress'>
-      <image class='user_column_item_image' src='/static/images/address.png'></image>
-      <view class='user_column_item_text'>地址管理</view>
-    </view>
-    <button class="user_column_item_phone" open-type="getPhoneNumber" bindgetphonenumber="bindPhoneNumber">
-      <image class='user_column_item_image' src='/static/images/mobile.png'></image>
-      <view class='user_column_item_text'>绑定手机</view>
-    </button>
-    <view class='user_column_item' bindtap='goFeedback'>
-      <image class='user_column_item_image' src='/static/images/feedback.png'></image>
-      <view class='user_column_item_text'>意见反馈</view>
-    </view>
-    <view class='user_column_item'>
-      <contact-button style="opacity:0;position:absolute;" type="default-dark" session-from="weapp" size="27">
-      </contact-button>
-      <image class='user_column_item_image' src='/static/images/customer.png'></image>
-      <view class='user_column_item_text'>联系客服</view>
-    </view>
-    <view class='user_column_item' bindtap='aboutUs'>
-      <image class='user_column_item_image' src='/static/images/about_us.png'></image>
-      <view class='user_column_item_text'>关于我们</view>
-    </view>
+    <navigator url="/pages/about/about" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <image class="btn-icon" src="/static/images/about_us.png"></image>
+      <view class="weui-cell__bd">关于我们</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
   </view>
 
   <view class="logout" wx:if="{{hasLogin}}" bindtap="exitLogin">退出登录</view>
