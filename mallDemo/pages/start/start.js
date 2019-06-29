@@ -28,19 +28,33 @@ Page({
     if (e.detail.errMsg == 'getUserInfo:ok') {
       wx.setStorageSync('hasLogin', true)
       wx.setStorageSync('userInfo', e.detail.userInfo)
-      var tmp = JSON.stringify(e.detail.userInfo.nickName)
-      console.log("wx login username =" + tmp)
-      util.request(api.AuthLoginByWeixin, {
-        username: e.detail.userInfo.nickName
-      }, 'POST').then(function (res) {
-        console.log("AuthLoginByWeixin:" + JSON.stringify(res))
-        if (res.errno === 0) {
-          that.setData({
-            order: res.data.order
-          });
-        }
-      });
+      
+      wx.login({
+        success(res) {
+          wx.getUserInfo({
+            success: function (userRes) {
+              util.request(api.AuthLoginByWeixin, {
+                wx_code: res.code,
+                encryptedData: userRes.encryptedData,
+                iv: userRes.iv
+              }, 'POST').then(function (res) {
+                console.log("AuthLoginByWeixin:" + JSON.stringify(res))
+                if (res.errno === 0) {
+                  that.setData({
+                    order: res.data.order
+                  });
+                }
+              });
 
+            },
+            fail:{}
+          })
+        },
+        error(res) {
+          alert(res['errMsg'])
+        }
+
+      })
       setTimeout(() => {
         wx.switchTab({
           url: '/pages/ucenter/index/index',

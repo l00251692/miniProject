@@ -9,9 +9,9 @@ var WxApiRoot = 'http://127.0.0.1/';
 // var WxApiRoot = 'http://102.152.206.172:8080/wx/';
 // 云平台上线时使用
 // var WxApiRoot = 'https://www.cctv.com.cn/wx/';
-
+//7ff5471d0e423cd277c35c7a7f958b7c
 module.exports = {
-  AppId: 'example223344',
+  AppId: 'wx7b7aabca0fc1737d',
   HomeBanner: WxApiRoot + 'app/home/banner', //首页Banner
   HomeIndex: WxApiRoot + 'app/home/index', //首页Banner
   CatalogList: WxApiRoot + 'catalog/index', //分类目录全部分类数据接口

@@ -30,7 +30,7 @@ function request(url, data = {}, method = "POST") {
       method: method,
       header: {
         'content-type': 'application/x-www-form-urlencoded',
-        'deviceId' : api.AppId,
+        'appId' : api.AppId,
       },
       success: function(res) {
         console.log("request return success:" +JSON.stringify(res))
