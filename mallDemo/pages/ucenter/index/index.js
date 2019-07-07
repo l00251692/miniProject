@@ -17,7 +17,6 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     //获取用户的登录信息
     if (wx.getStorageSync('hasLogin')) {
-      console.log("wx has login")
       let userInfo = wx.getStorageSync('userInfo');
       this.setData({
         userInfo: userInfo,
@@ -51,14 +50,46 @@ Page({
   },
   onLogin(e) {
     if (e.detail.errMsg == 'getUserInfo:ok') {
-      wx.setStorageSync('hasLogin', true)
-      wx.setStorageSync('userInfo', e.detail.userInfo)
-      app.globalData.hasLogin = true;
+      if (wx.getStorageSync('hasLogin'))
+      {
+        return
+      }
 
-      this.setData({
-        userInfo: e.detail.userInfo,
-        hasLogin: true
-      });
+      var that = this
+      wx.login({
+        success(res) {
+          wx.getUserInfo({
+            success: function (userRes) {
+              util.request(api.AuthLoginByWeixin, {
+                wx_code: res.code,
+                encryptedData: userRes.encryptedData,
+                iv: userRes.iv
+              }, 'POST').then(function (res) {
+                console.log("AuthLoginByWeixin:" + JSON.stringify(res))
+                if (res.status === 0) {
+                  wx.setStorageSync('hasLogin', true)
+                  wx.setStorageSync('userInfo', res.data.userInfo)
+
+                  that.setData({
+                    userInfo: res.data.userInfo,
+                    hasLogin: true
+                  });
+
+                }
+                else{
+                  console.log(res.message)
+                }
+              });
+
+            },
+            fail: {}
+          })
+        },
+        error(res) {
+          alert(res['errMsg'])
+        }
+
+      })
 
       setTimeout(() => {
         wx.showModal({

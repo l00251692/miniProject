@@ -26,8 +26,6 @@ Page({
 
   onLogin(e) {
     if (e.detail.errMsg == 'getUserInfo:ok') {
-      wx.setStorageSync('hasLogin', true)
-      wx.setStorageSync('userInfo', e.detail.userInfo)
       
       wx.login({
         success(res) {
@@ -39,15 +37,31 @@ Page({
                 iv: userRes.iv
               }, 'POST').then(function (res) {
                 console.log("AuthLoginByWeixin:" + JSON.stringify(res))
-                if (res.errno === 0) {
-                  that.setData({
-                    order: res.data.order
-                  });
+                if (res.status === 0) {
+                  wx.setStorageSync('hasLogin', true)
+                  wx.setStorageSync('userInfo', res.data.userInfo)
+
+                  wx.switchTab({
+                    url: '/pages/ucenter/index/index',
+                  })
                 }
+                else //status == -1
+                {
+                  console.log(res.message)
+                }
+              }, function(res){
+                console.log("与服务器连接失败")
+                wx.switchTab({
+                  url: '/pages/ucenter/index/index',
+                })
               });
 
             },
-            fail:{}
+            fail: function (res){
+              wx.switchTab({
+                url: '/pages/ucenter/index/index',
+              })
+            }
           })
         },
         error(res) {
@@ -55,11 +69,6 @@ Page({
         }
 
       })
-      setTimeout(() => {
-        wx.switchTab({
-          url: '/pages/ucenter/index/index',
-        })
-      }, 1000);
     }
   }
 })

@@ -38,7 +38,7 @@ function request(url, data = {}, method = "POST") {
           resolve(res.data.result);
         } else {
           console.log("request error:" + res.statusCode)
-          reject(res.errMsg);
+          reject(res.statusCode);
         }
 
       },
