@@ -25,14 +25,8 @@ Page({
 
       app.globalData.hasLogin = true;
 
-      let that = this;
-      //util.request(api.UserIndex).then(function (res) {
-      //  if (res.errno === 0) {
-      //    that.setData({
-      //      order: res.data.order
-      //    });
-      //  }
-      //});
+      this.getOrderSummary()
+      
     }
   },
   onReady: function() {
@@ -48,6 +42,8 @@ Page({
   onUnload: function() {
     // 页面关闭
   },
+
+  
   onLogin(e) {
     if (e.detail.errMsg == 'getUserInfo:ok') {
       if (wx.getStorageSync('hasLogin'))
@@ -61,7 +57,7 @@ Page({
           wx.getUserInfo({
             success: function (userRes) {
               util.request(api.AuthLoginByWeixin, {
-                wx_code: res.code,
+                wxCode: res.code,
                 encryptedData: userRes.encryptedData,
                 iv: userRes.iv
               }, 'POST').then(function (res) {
@@ -75,6 +71,7 @@ Page({
                     hasLogin: true
                   });
 
+                  that.getOrderSummary()
                 }
                 else{
                   console.log(res.message)
@@ -90,14 +87,28 @@ Page({
         }
 
       })
-
-      setTimeout(() => {
-        wx.showModal({
-          title: '提示',
-          content: '登录超时，请稍候再试',
-        })
-      }, 1000);
     }
+  },
+  
+  getOrderSummary(){
+    var that = this
+    console.log("that.data.userInfo.userId=" + that.data.userInfo.userId)
+    util.request(api.OrderSummary, {
+      userId: that.data.userInfo.userId
+    }, 'POST').then(function (res) {
+      if (res.status === 0) {
+        that.setData({
+          unpaid: res.data.unpaid,
+          unship: res.data.unship,
+          unrecv: res.data.unrecv,
+          uncomment: res.data.uncomment
+        });
+
+      }
+      else {
+        console.log(res.message)
+      }
+    });
   },
 
   goOrder() {

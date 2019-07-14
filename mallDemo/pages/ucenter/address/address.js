@@ -5,29 +5,52 @@ var app = getApp();
 Page({
   data: {
     addressList: [],
+    hasLogin: false
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
+    if (wx.getStorageSync('hasLogin')) {
+      let userInfo = wx.getStorageSync('userInfo');
+      this.setData({
+        userInfo: userInfo,
+        hasLogin: true
+      });
+    }
+    this.getAddressList();
   },
   onReady: function() {
     // 页面渲染完成
   },
   onShow: function() {
     // 页面显示
-    this.getAddressList();
+    
   },
+
   getAddressList() {
     let that = this;
-    util.request(api.AddressList).then(function(res) {
-      if (res.errno === 0) {
-        that.setData({
-          addressList: res.data
-        });
-      }
-    });
+    if (this.data.hasLogin) {
+      util.request(api.AddressList, {
+        userId: that.data.userInfo.userId
+      }, 'POST').then(function (res) {
+        if (res.errno === 0) {
+          that.setData({
+            addressList: res.data
+          });
+        }
+      });
+    } 
   },
+
   addressAddOrUpdate(event) {
     console.log(event)
+    if (this.data.hasLogin == false)
+    {
+      wx.showModal({
+        title: '提示',
+        content: '请登录后再查看',
+      })
+      return
+    }
 
     //返回之前，先取出上一页对象，并设置addressId
     var pages = getCurrentPages();
@@ -55,6 +78,7 @@ Page({
       })
     }
   },
+
   deleteAddress(event) {
     console.log(event.target)
     let that = this;
@@ -65,7 +89,8 @@ Page({
         if (res.confirm) {
           let addressId = event.target.dataset.addressId;
           util.request(api.AddressDelete, {
-            id: addressId
+            id: addressId,
+            userId: that.data.userInfo.userId
           }, 'POST').then(function(res) {
             if (res.errno === 0) {
               that.getAddressList();

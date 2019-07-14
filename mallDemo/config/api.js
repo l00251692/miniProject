@@ -61,25 +61,26 @@ module.exports = {
   SearchHelper: WxApiRoot + 'search/helper', //搜索帮助
   SearchClearHistory: WxApiRoot + 'search/clearhistory', //搜索历史清楚
 
-  AddressList: WxApiRoot + 'address/list', //收货地址列表
-  AddressDetail: WxApiRoot + 'address/detail', //收货地址详情
-  AddressSave: WxApiRoot + 'address/save', //保存收货地址
-  AddressDelete: WxApiRoot + 'address/delete', //保存收货地址
+  AddressList: WxApiRoot + 'omc/shipping/wx/list', //收货地址列表
+  AddressDetail: WxApiRoot + 'omc/shipping/wx/detail', //收货地址详情
+  AddressSave: WxApiRoot + 'omc/shipping/wx/save', //保存收货地址
+  AddressDelete: WxApiRoot + 'omc/shipping/wx/delete', //保存收货地址
 
   ExpressQuery: WxApiRoot + 'express/query', //物流查询
 
   RegionList: WxApiRoot + 'region/list', //获取区域列表
 
-  OrderSubmit: WxApiRoot + 'order/submit', // 提交订单
-  OrderPrepay: WxApiRoot + 'order/prepay', // 订单的预支付会话
-  OrderList: WxApiRoot + 'order/list', //订单列表
-  OrderDetail: WxApiRoot + 'order/detail', //订单详情
-  OrderCancel: WxApiRoot + 'order/cancel', //取消订单
-  OrderRefund: WxApiRoot + 'order/refund', //退款取消订单
-  OrderDelete: WxApiRoot + 'order/delete', //删除订单
-  OrderConfirm: WxApiRoot + 'order/confirm', //确认收货
-  OrderGoods: WxApiRoot + 'order/goods', // 代评价商品信息
-  OrderComment: WxApiRoot + 'order/comment', // 评价订单商品信息
+  OrderSummary: WxApiRoot + 'omc/order/wx/summary', // 订单概况
+  OrderSubmit: WxApiRoot + 'omc/order/wx/submit', // 提交订单
+  OrderPrepay: WxApiRoot + 'omc/order/prepay', // 订单的预支付会话
+  OrderList: WxApiRoot + 'omc/order/list', //订单列表
+  OrderDetail: WxApiRoot + 'omc/order/detail', //订单详情
+  OrderCancel: WxApiRoot + 'omc/order/cancel', //取消订单
+  OrderRefund: WxApiRoot + 'omc/order/refund', //退款取消订单
+  OrderDelete: WxApiRoot + 'omc/order/delete', //删除订单
+  OrderConfirm: WxApiRoot + 'omc/order/confirm', //确认收货
+  OrderGoods: WxApiRoot + 'omc/order/goods', // 代评价商品信息
+  OrderComment: WxApiRoot + 'omc/order/comment', // 评价订单商品信息
 
   FeedbackAdd: WxApiRoot + 'feedback/submit', //添加反馈
   FootprintList: WxApiRoot + 'footprint/list', //足迹列表

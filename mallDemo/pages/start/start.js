@@ -32,7 +32,7 @@ Page({
           wx.getUserInfo({
             success: function (userRes) {
               util.request(api.AuthLoginByWeixin, {
-                wx_code: res.code,
+                wxCode: res.code,
                 encryptedData: userRes.encryptedData,
                 iv: userRes.iv
               }, 'POST').then(function (res) {
